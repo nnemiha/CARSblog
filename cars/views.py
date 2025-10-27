@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
 from .models import Car
-from .serializers import CarSerializer
+from .serializers import CarSerializer, UserSerializer
 from rest_framework import generics
 from django.contrib.auth.models import User
 from rest_framework.permissions import AllowAny
@@ -19,7 +19,22 @@ class CarViewSet(viewsets.ModelViewSet):
 
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
+    serializer_class = UserSerializer
     permission_classes = [AllowAny]
+    
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        
+        # Создаем JWT токены для нового пользователя
+        refresh = RefreshToken.for_user(user)
+        
+        return Response({
+            'refresh': str(refresh),
+            'access': str(refresh.access_token),
+            'username': user.username
+        }, status=status.HTTP_201_CREATED)
     
 class FrontendAppView(TemplateView):
     template_name = "index.html"
