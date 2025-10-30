@@ -65,7 +65,10 @@ ROOT_URLCONF = 'cinema_backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            BASE_DIR / 'static',            # чтобы рендерить собранный фронтенд index.html
+            BASE_DIR / 'frontend' / 'dist', # на случай, если билд лежит здесь
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
