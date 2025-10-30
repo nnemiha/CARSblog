@@ -85,12 +85,14 @@ export default defineConfig({
   },
   css: {
     preprocessorOptions: {
-      sass: {
-        api: 'modern-compiler',
-      },
-      scss: {
-        api: 'modern-compiler',
-      },
+      sass: { api: 'modern-compiler' },
+      scss: { api: 'modern-compiler' },
     },
+  },
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    emptyOutDir: true,
+    manifest: true,
   },
 })
