@@ -11,6 +11,9 @@ import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // В продакшене просим Vite генерировать ссылки на ассеты с префиксом /static/
+  // чтобы их корректно отдавал WhiteNoise/Django по STATIC_URL
+  base: process.env.NODE_ENV === 'production' ? '/static/' : '/',
   plugins: [
     VueRouter(),
     Vue({
