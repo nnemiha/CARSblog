@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: maincinema
+    env: python
+    buildCommand: ./build.sh
+    startCommand: gunicorn cinema_backend.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: NODE_VERSION
+        value: 20
+      - key: DJANGO_SETTINGS_MODULE
+        value: cinema_backend.settings
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: DEBUG
+        value: 'False'
+    healthCheckPath: /
+
